@@ -1,0 +1,20 @@
+**Purpose:**
+
+To practice giving crystal-clear instructions, mirroring how we must guide AI with explicit, unambiguous prompts.
+
+**Materials:**
+
+- Play-Doh (multiple colors, simple shapes)
+- “Structure” card (shows a shape or object to build)
+
+**How to Play (2 players):**
+
+1. **Roles:**
+    - Player A: “Human” who knows the final structure (from the card).
+    - Player B: “Alien Worker” who must follow instructions literally but will “play dumb.”
+2. **Instructions:**
+    - Player A describes step-by-step how to build the shape using Play-Doh.
+    - If any instruction is vague, Player B should misinterpret it.
+3. **Debrief:**
+    - Discuss how you adapted your language.
+    - Relate to prompting AI: clarity and explicitness matter.

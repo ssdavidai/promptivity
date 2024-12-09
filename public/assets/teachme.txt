@@ -1,0 +1,19 @@
+**Purpose:**
+
+To learn how constraints affect communication, just as specific rules and limits shape AI prompts.
+
+**Materials:**
+
+- Instruction cards (simple tasks like “Explain how to tie a shoe”)
+- Constraint cards (e.g., “Use no verbs,” “Only metaphors,” “Sing it”)
+
+**How to Play (2 or more players):**
+
+1. **Setup:**
+    - Player A draws one instruction card and three constraint cards.
+2. **Rules:**
+    - Player A must follow the constraints while explaining the instruction.
+    - Player B (or the group) tries to guess the original instruction.
+3. **Debrief:**
+    - Which constraints were hardest?
+    - Relate to AI prompting: complex requirements demand creative, structured instructions.

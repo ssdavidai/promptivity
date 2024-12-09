@@ -1,0 +1,20 @@
+**Purpose:**
+
+To highlight the importance of providing context and instructions for unfamiliar situations, similar to supplying AI with the necessary background.
+
+**Materials:**
+
+- Scene cards (define a time, place, or unusual setting)
+- Task cards (e.g., “Organize a town meeting”)
+
+**How to Play (2 players):**
+
+1. **Setup:**
+    - Player A draws a scene card and a task card.
+    - Imagine Player A just arrived from that scene’s era/environment into our present.
+2. **Instructions:**
+    - Player A must instruct Player B on how to carry out the task here and now.
+    - Include details (tools, steps) so Player B can document and act on it.
+3. **Debrief:**
+    - Discuss how the unfamiliar setting forced more detailed explanations.
+    - Relate to AI: providing necessary context transforms vague prompts into actionable steps.
