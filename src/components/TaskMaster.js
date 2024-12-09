@@ -102,7 +102,7 @@ function TaskMaster() {
           >
             Quit
           </button>
-          <div className="mt-4 space-y-4 mb-10">
+          <div className="mt-4 space-y-4 mb-10 mx-5px">
             <div className="card-container">
               <div className="bg-white rounded-lg shadow overflow-hidden">
                 <h3 className="text-xl font-semibold p-4">Scene Card:</h3>

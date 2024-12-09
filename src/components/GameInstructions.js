@@ -23,7 +23,7 @@ function GameInstructions({ textFilePath }) {
   }, [textFilePath]);
 
   return (
-    <div className="p-4 bg-white rounded shadow">
+    <div className="p-4 bg-white rounded shadow mx-10">
       <ReactMarkdown>{instructions}</ReactMarkdown>
     </div>
   );

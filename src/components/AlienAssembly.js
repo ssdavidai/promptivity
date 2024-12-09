@@ -87,8 +87,8 @@ function AlienAssembly() {
           >
             Quit
           </button>
-          <div className="mt-4 p-4 bg-white rounded shadow mb-5">
-            <h3 className="text-xl mb-2">Your Secret Card:</h3>
+          <div className="mt-4 p-4 bg-white rounded shadow mb-5 mx-5px">
+        
             <img src={cardImage} alt="Secret Card" className="max-w-full h-auto" />
           </div>
         </>

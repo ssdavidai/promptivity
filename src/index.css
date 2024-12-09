@@ -37,6 +37,11 @@
       transform: translate(-20px, 20px) scale(0.9);
     }
   }
+
+  .mx-5px {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
 body {
