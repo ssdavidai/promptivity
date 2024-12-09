@@ -1,70 +1,182 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Promptivity
 
-## Available Scripts
+Promptivity is a collection of interactive games designed to help users practice giving crystal-clear instructions, mirroring how we must guide AI with explicit, unambiguous prompts. The games are built using React and are intended to be both educational and fun.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [About the Project](#about-the-project)
+- [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Game Modes](#game-modes)
+  - [Alien Assembly](#alien-assembly)
+  - [Teach Me](#teach-me)
+  - [Task Master](#task-master)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgments](#acknowledgments)
+- [Screenshots](#screenshots)
+- [Future Improvements](#future-improvements)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## About the Project
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Promptivity aims to bridge the gap between human communication and AI prompting by providing a platform where users can practice crafting precise and effective instructions. Through engaging games, players learn the importance of clarity, context, and constraints when communicating with AI systems.
 
-### `npm test`
+## Built With
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Router](https://reactrouter.com/)
+- [JavaScript (ES6)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Node.js](https://nodejs.org/) and npm
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To get a local copy up and running, follow these steps.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Make sure you have the following installed:
 
-### `npm run eject`
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Clone the repository:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   git clone https://github.com/your-username/promptivity.git
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Navigate to the project directory:**
 
-## Learn More
+   ```bash
+   cd promptivity
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Install dependencies:**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   npm install
+   ```
 
-### Code Splitting
+4. **Start the development server:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   npm start
+   ```
 
-### Analyzing the Bundle Size
+5. **Open the app in your browser:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   Navigate to [http://localhost:3000](http://localhost:3000) to view the application.
 
-### Making a Progressive Web App
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Upon launching the application, you will be presented with the home screen where you can select from three different game modes.
 
-### Advanced Configuration
+## Game Modes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Alien Assembly
 
-### Deployment
+**Purpose:**  
+To practice giving crystal-clear instructions, mirroring how we must guide AI with explicit, unambiguous prompts.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**How to Play (2 players):**
 
-### `npm run build` fails to minify
+- **Roles:**
+  - **Player A:** “Human” who knows the final structure (from the card).
+  - **Player B:** “Alien Worker” who must follow instructions literally but will “play dumb.”
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Instructions:**
+  - Player A describes step-by-step how to build the shape using Play-Doh.
+  - If any instruction is vague, Player B should misinterpret it.
+
+- **Debrief:**
+  - Discuss how you adapted your language.
+  - Relate to prompting AI: clarity and explicitness matter.
+
+### Teach Me
+
+**Purpose:**  
+To learn how constraints affect communication, just as specific rules and limits shape AI prompts.
+
+**How to Play (2 or more players):**
+
+- **Setup:**
+  - Player A draws one instruction card and three constraint cards.
+
+- **Rules:**
+  - Player A must follow the constraints while explaining the instruction.
+  - Player B (or the group) tries to guess the original instruction.
+
+- **Debrief:**
+  - Which constraints were hardest?
+  - Relate to AI prompting: complex requirements demand creative, structured instructions.
+
+### Task Master
+
+**Purpose:**  
+To highlight the importance of providing context and instructions for unfamiliar situations, similar to supplying AI with the necessary background.
+
+**How to Play (2 players):**
+
+- **Setup:**
+  - Player A draws a scene card and a task card.
+  - Imagine Player A just arrived from that scene’s era/environment into our present.
+
+- **Instructions:**
+  - Player A must instruct Player B on how to carry out the task here and now.
+  - Include details (tools, steps) so Player B can document and act on it.
+
+- **Debrief:**
+  - Discuss how the unfamiliar setting forced more detailed explanations.
+  - Relate to AI: providing necessary context transforms vague prompts into actionable steps.
+
+## Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+To contribute:
+
+1. **Fork the Project**
+2. **Create your Feature Branch**
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. **Commit your Changes**
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. **Push to the Branch**
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Open a Pull Request**
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contact
+
+David Szabo-Stuban - [david@szabostuban.com](mailto:david@szabostuban.com)
+
+Project Link: [https://github.com/ssdavidai/promptivity](https://github.com/ssdavidai/promptivity)
+
+## Acknowledgments
+
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Router](https://reactrouter.com/)
+- [IBM Plex Mono Font](https://fonts.google.com/specimen/IBM+Plex+Mono)
+- [Press Start 2P Font](https://fonts.google.com/specimen/Press+Start+2P)
+- [Unsplash](https://unsplash.com/) (if images are used)
+- [Font Awesome](https://fontawesome.com/) (if icons are used)
+- [Create React App](https://create-react-app.dev/)
+
