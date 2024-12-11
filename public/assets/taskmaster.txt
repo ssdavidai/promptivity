@@ -1,20 +1,48 @@
 **Purpose:**
 
-To highlight the importance of providing context and instructions for unfamiliar situations, similar to supplying AI with the necessary background.
+To create an interactive experience where a player communicates with an AI that simulates a person from an unfamiliar time or place, emphasizing the importance of providing clear context and instructions.
 
 **Materials:**
 
-- Scene cards (define a time, place, or unusual setting)
-- Task cards (e.g., “Organize a town meeting”)
+- **Scene Cards**: Define a time, place, or unique setting for the AI character (e.g., "Medieval Europe," "Ancient Egypt," "Mars Colony 2150")
+- **Task Cards**: Assign a modern or unfamiliar task that the AI character needs to complete (e.g., "Set up a Wi-Fi network," "Order food online")
+- **Chat Interface**: A platform for the player to communicate with the AI (e.g., messaging app, chatbot)
 
-**How to Play (2 players):**
+**How to Play (1 player and an AI):**
 
 1. **Setup:**
-    - Player A draws a scene card and a task card.
-    - Imagine Player A just arrived from that scene’s era/environment into our present.
-2. **Instructions:**
-    - Player A must instruct Player B on how to carry out the task here and now.
-    - Include details (tools, steps) so Player B can document and act on it.
+   - The player selects one scene card and one task card.
+   - The AI receives a system prompt that defines its character based on the selected scene and task.
+
+2. **Gameplay:**
+   - **AI Role-Playing**: The AI acts as a person who has just been teleported from their original time/place into the present day. It only knows the world as it was in the specified scene and is confused by modern concepts.
+   - **Initial Interaction**: The AI explains its sudden appearance and expresses confusion about the task it must complete.
+   - **Player's Role**: The player helps the AI understand and complete the task by explaining concepts in terms relatable to the AI's background, avoiding anachronistic jargon.
+   - **Communication**: The player and the AI interact through the chat interface, simulating a conversation between a present-day person and someone from a different era.
+
 3. **Debrief:**
-    - Discuss how the unfamiliar setting forced more detailed explanations.
-    - Relate to AI: providing necessary context transforms vague prompts into actionable steps.
+   - **Discussion**: After the task is attempted, the player reflects on the experience.
+   - **Reflection**: Highlight how providing clear context and tailored explanations was crucial for understanding.
+   - **AI Connection**: Relate this to interacting with AI—just as detailed prompts help AI generate better responses.
+
+**Example Scenario:**
+
+- **Scene Card**: "Ancient Egypt"
+- **Task Card**: "Install a software update on your smartphone"
+
+**Gameplay Example:**
+
+- The AI, acting as an Egyptian scribe, is bewildered by the concept of a "smartphone" and "software update."
+- The player explains that a "smartphone" is like a magical scroll that can communicate over great distances and that a "software update" enhances its enchantments.
+- Together, they find analogies that make sense within the context of Ancient Egypt.
+
+**Objective:**
+
+By interacting with an AI that embodies a person from a different era or environment, the player learns the importance of clear communication and providing sufficient context—skills that are directly applicable when formulating prompts for AI or collaborating across diverse teams.
+
+**Note on AI Behavior:**
+
+- The AI speaks in a simple, friendly manner, using brevity and conveying emotions.
+- It only knows concepts from its original time/place and remains consistent in its lack of understanding of modern terms.
+- The AI is curious and asks questions to help the player explain things in a way that makes sense to someone from its era.
+- The AI communicates in Hungarian using informal speech (tegeződés) and avoids using quotation marks (' and ") as per its system prompt.
