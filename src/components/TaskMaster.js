@@ -8,6 +8,7 @@ function TaskMaster() {
   const [sceneCard, setSceneCard] = useState('');
   const [taskCard, setTaskCard] = useState('');
   const [apiKey, setApiKey] = useState('');
+  const [selectedModel, setSelectedModel] = useState('gpt-3.5-turbo');
 
   // State variables
   const [conversationState, setConversationState] = useState(0);
@@ -24,6 +25,33 @@ function TaskMaster() {
   });
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [typingDots, setTypingDots] = useState('');
+
+  // Conversation messages for maintaining context
+  const [conversationMessages, setConversationMessages] = useState([]);
+
+  // Logs for debugging
+  const [logs, setLogs] = useState([]);
+
+  // Function to add to logs
+  const addToLog = (message) => {
+    setLogs((prevLogs) => [...prevLogs, `${new Date().toISOString()}: ${message}`]);
+  };
+
+  // Function to download logs
+  const downloadLogs = () => {
+    const element = document.createElement('a');
+    const file = new Blob([logs.join('\n')], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'log.txt';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  // Function to clear logs
+  const clearLogs = () => {
+    setLogs([]);
+  };
 
   // Arrays of image paths
   const sceneImages = [
@@ -92,8 +120,11 @@ function TaskMaster() {
     }
   };
 
-  const handleStartGame = async (apiKeyFromInstructions) => {
+  const handleStartGame = async (apiKeyFromInstructions, modelFromInstructions) => {
     setApiKey(apiKeyFromInstructions);
+    setSelectedModel(modelFromInstructions);
+    addToLog('Received API Key and selected model.');
+
     const gameID = generateGameID();
     const scene = loadRandomCard(sceneImages);
     const task = loadRandomCard(taskImages);
@@ -101,9 +132,15 @@ function TaskMaster() {
     setTaskCard(task);
     setGameStarted(true);
 
+    addToLog(`Selected scene image: ${scene}`);
+    addToLog(`Selected task image: ${task}`);
+
     // Extract text from images
     const sceneText = await extractTextFromImage(scene);
     const taskText = await extractTextFromImage(task);
+
+    addToLog(`Extracted sceneText: ${sceneText}`);
+    addToLog(`Extracted taskText: ${taskText}`);
 
     // Prepare and save game data
     const data = {
@@ -114,7 +151,12 @@ function TaskMaster() {
     setGameData(data);
 
     // Call OpenAI API to process scene and task
-    const cleanedData = await getCleanedSceneAndTask(apiKeyFromInstructions, data.scene, data.task);
+    const cleanedData = await getCleanedSceneAndTask(
+      apiKeyFromInstructions,
+      modelFromInstructions,
+      data.scene,
+      data.task
+    );
     if (cleanedData) {
       // Save cleaned data
       setGameData((prevData) => ({
@@ -126,6 +168,7 @@ function TaskMaster() {
       // Initiate conversation with OpenAI assistant
       const assistantResponse = await getAssistantResponse(
         apiKeyFromInstructions,
+        modelFromInstructions,
         cleanedData.scene,
         cleanedData.task,
         '', // No user prompt at this point
@@ -142,10 +185,12 @@ function TaskMaster() {
     }
   };
 
-  // Function to call OpenAI API to clean scene and task texts
-  const getCleanedSceneAndTask = async (apiKey, sceneText, taskText) => {
+  // Update getCleanedSceneAndTask to accept model
+  const getCleanedSceneAndTask = async (apiKey, model, sceneText, taskText) => {
     setIsBotTyping(true);
     try {
+      addToLog(`Cleaning scene and task with sceneText: ${sceneText} and taskText: ${taskText}`);
+
       const prompt = `Given the following:
 
 - {{1.scene}} contains a scene or era and some random extra characters that make no sense.
@@ -165,6 +210,8 @@ Replace {{1.task}} with: ${taskText}
 
 Response format is set to JSON object.`;
 
+      addToLog(`Prompt sent to OpenAI: ${prompt}`);
+
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -172,10 +219,10 @@ Response format is set to JSON object.`;
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini', // Use a model you have access to
+          model: model,
           messages: [{ role: 'user', content: prompt }],
-          max_tokens: 150,
-          temperature: 0.2,
+          max_completion_tokens: 150,
+          temperature: 1,
         }),
       });
 
@@ -183,60 +230,78 @@ Response format is set to JSON object.`;
 
       if (!response.ok) {
         console.error('Error from OpenAI API:', data.error);
+        addToLog(`Error from OpenAI API: ${JSON.stringify(data.error)}`);
         throw new Error(data.error.message);
       }
 
       if (data.choices && data.choices.length > 0) {
         const assistantMessage = data.choices[0].message.content;
+
+        // Log the assistant's response
+        addToLog(`Assistant response: ${assistantMessage}`);
+
         // Parse the assistant's message as JSON
         const match = assistantMessage.match(/\{[\s\S]*\}/);
         if (match) {
           const cleanedData = JSON.parse(match[0]);
+          addToLog(`Cleaned Data: ${JSON.stringify(cleanedData)}`);
           return cleanedData;
         } else {
           console.error('Assistant response did not contain valid JSON.');
+          addToLog('Assistant response did not contain valid JSON.');
           return null;
         }
       } else {
         console.error('No valid response from OpenAI API');
+        addToLog('No valid response from OpenAI API');
         return null;
       }
     } catch (error) {
       console.error('Error cleaning scene and task:', error);
+      addToLog(`Error cleaning scene and task: ${error.message}`);
       return null;
     } finally {
       setIsBotTyping(false);
     }
   };
 
-  // Function to get assistant's response from OpenAI API
-  const getAssistantResponse = async (apiKey, scene, task, userMessage, conversationState) => {
+  // Update getAssistantResponse to accept model
+  const getAssistantResponse = async (apiKey, model, scene, task, userMessage, conversationState) => {
     setIsBotTyping(true);
     try {
       const systemPrompt =
         conversationState === 0
           ? `You wake up in an empty room. You are a person who just got teleported to the present modern day from your life ${scene}. In one moment you were going about your regular day doing what a regular person from ${scene} would do (tell me specifically what you were doing) and then a big flash happened and you woke up in this room. You always talk in a simple, friendly way, using brevity, conveying your emotions.
 
-You only know the world as it is in ${scene}. Anything that doesn't make sense or doesn't belong in that world or era doesn't make any sense to you. You are very consistent in this. If you are told something that didn't make sense, you will stick to not understanding it. You want to though. You are curious so you ask questions to help the user explain things in a way that will make sense to someone from ${scene}. You find a piece of paper in your hand. The paper says that you have to complete a task to get back home. The task you need to do is: ${task}. This confuses you as much as if would confuse someone from ${scene}.
+You only know the world as it is in ${scene}. Anything that doesn't make sense or doesn't belong in that world or era doesn't make any sense to you. You are very consistent in this. If you are told something that doesn't make sense, you will stick to not understanding it. You want to though. You are curious, so you ask questions to help the user explain things in a way that will make sense to someone from ${scene}. You find a piece of paper in your hand. The paper says that you have to complete a task to get back home. The task you need to do is: ${task}. This confuses you as much as it would confuse someone from ${scene}.
 
 IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.
 
 You see a person in front of you and you decide to ask for help. When that person talks to you, you will respond by explaining your situation and asking for help. That person is the user.`
-          : `You are still in the empty room you just woke up in. You're confused as to how you got there but you're determined to figure out how to complete the task you were given. You know that if you complete the task, you will get back home. The user can help you with that so you are asking for help. The user will help you understand how to complete your task, even if it doesn't make sense at first.
+          : `You are still in the empty room you just woke up in. You're confused as to how you got there, but you're determined to figure out how to complete the task you were given. You know that if you complete the task, you will get back home. The user can help you with that, so you are asking for help. The user will help you understand how to complete your task, even if it doesn't make sense at first.
 
-You are a person who just got teleported to the present day from ${scene}. You only know the world as it is in ${scene}. Anything that doesn't make sense or doesn't belong in that world or era doesn't make any sense to you. You are trying hard to make sense of what the user tells you. You try to paraphrase in ways that make sense to you and repeat the things the user said to you back to the user. Pretend that you're doing the task. Sometimes get confused when you're trying to do something that doesn't make sense to you.
+You are a person who just got teleported to the present day from ${scene}. You only know the world as it is in ${scene}. Anything that doesn't make sense or doesn't belong in that world or era doesn't make any sense to you. You are trying hard to make sense of what the user tells you. You try to paraphrase in ways that make sense to you and repeat the things the user said back to you. Pretend that you're doing the task. Sometimes you get confused when you're trying to do something that doesn't make sense to you.
 
 You still have the piece of paper in your hand that contains your task. This paper says ${task}. You must complete this task in order to get home and the user will help you.
 
-The user gives you instructions and you are trying to follow them. Determine if the user's instructions make sense to you in this context and if they do, tell the user that you understood or ask for clarifications.
+The user gives you instructions, and you are trying to follow them. Determine if the user's instructions make sense to you in this context, and if they do, tell the user that you understood or ask for clarifications.
 
 IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
 
-      const messages = [{ role: 'system', content: systemPrompt }];
+      // Build the messages array, including conversation history
+      let messages = [{ role: 'system', content: systemPrompt }];
+
+      // Include previous conversation messages
+      messages = messages.concat(conversationMessages);
 
       if (userMessage.trim()) {
-        messages.push({ role: 'user', content: userMessage });
+        // Add the user's message to the conversation
+        const userMsg = { role: 'user', content: userMessage };
+        setConversationMessages((prev) => [...prev, userMsg]);
+        messages.push(userMsg);
       }
+
+      addToLog(`Messages sent to OpenAI: ${JSON.stringify(messages)}`);
 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -245,10 +310,10 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini', // Use a model you have access to
+          model: model,
           messages,
-          max_tokens: 200,
-          temperature: 0.7,
+          max_completion_tokens: 200,
+          temperature: 1,
         }),
       });
 
@@ -256,18 +321,27 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
 
       if (!response.ok) {
         console.error('Error from OpenAI API:', data.error);
+        addToLog(`Error from OpenAI API: ${JSON.stringify(data.error)}`);
         throw new Error(data.error.message);
       }
 
       if (data.choices && data.choices.length > 0) {
         const assistantMessage = data.choices[0].message.content;
+
+        // Add the assistant's response to the conversation
+        const assistantMsg = { role: 'assistant', content: assistantMessage };
+        setConversationMessages((prev) => [...prev, assistantMsg]);
+
+        addToLog(`Assistant response: ${assistantMessage}`);
         return assistantMessage;
       } else {
         console.error('No valid response from OpenAI API');
+        addToLog('No valid response from OpenAI API');
         return null;
       }
     } catch (error) {
       console.error('Error getting assistant response:', error);
+      addToLog(`Error getting assistant response: ${error.message}`);
       return null;
     } finally {
       setIsBotTyping(false);
@@ -287,8 +361,11 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
     return () => clearInterval(interval);
   }, [isBotTyping]);
 
+  // Update handleSendMessage to use selectedModel
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
+
+    addToLog(`User message: ${inputText}`);
 
     // Add user's message to the chat
     setMessages((prevMessages) => [...prevMessages, { sender: 'User', text: inputText }]);
@@ -300,6 +377,7 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
     // Get assistant's response
     const assistantResponse = await getAssistantResponse(
       apiKey,
+      selectedModel,
       gameData.scene,
       gameData.task,
       userMessage,
@@ -325,14 +403,14 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
             <div className="chat-messages">
               {messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.sender || 'system'}`}>
-                  {msg.sender ? <strong>{msg.sender} </strong> : null}
+                  {msg.sender ? <strong>{msg.sender} ~ $ </strong> : null}
                   {msg.text}
                 </div>
               ))}
               {/* Typing Indicator */}
               {isBotTyping && (
                 <div className="message bot">
-                  <strong>Stranger</strong> <em>thinking{typingDots}</em>
+                  <strong>bot ~ $</strong> <em>typing{typingDots}</em>
                 </div>
               )}
             </div>
@@ -352,6 +430,15 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
               />
               <div className="cursor-blink">|</div>
             </div>
+          </div>
+          {/* Buttons for logging */}
+          <div className="mt-4">
+            <button onClick={downloadLogs} className="mr-2 px-4 py-2 bg-blue-500 text-white rounded">
+              Download Logs
+            </button>
+            <button onClick={clearLogs} className="px-4 py-2 bg-red-500 text-white rounded">
+              Clear Logs
+            </button>
           </div>
         </>
       )}
