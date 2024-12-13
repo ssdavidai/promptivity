@@ -1,6 +1,6 @@
 .chat-container {
   width: 80%;
-  max-width: 600px;
+  max-width: 60%;
   margin-top: 20px;
 }
 
@@ -14,14 +14,18 @@
   
 }
 
-.message.bot {
+.message.Stranger {
   text-align: left;
+  margin-bottom: 20px;
+}
+
+.message.system {
   padding-bottom: 20px;
 }
 
-.message.user {
+.message.User {
   text-align: left;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .chat-input {
