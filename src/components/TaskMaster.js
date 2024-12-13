@@ -403,14 +403,14 @@ IMPORTANT: You can NEVER use quote characters! ' and " ARE STRICTLY FORBIDDEN.`;
             <div className="chat-messages">
               {messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.sender || 'system'}`}>
-                  {msg.sender ? <strong>{msg.sender} ~ $ </strong> : null}
+                  {msg.sender ? <strong>{msg.sender} </strong> : null}
                   {msg.text}
                 </div>
               ))}
               {/* Typing Indicator */}
               {isBotTyping && (
                 <div className="message bot">
-                  <strong>bot ~ $</strong> <em>typing{typingDots}</em>
+                  <strong>Stranger</strong> <em>typing{typingDots}</em>
                 </div>
               )}
             </div>
